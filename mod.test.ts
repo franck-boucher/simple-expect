@@ -127,4 +127,20 @@ describe("expect works with a function", () => {
     expect(returnBoolean).withParams(customInput).toBe(customInput);
     assertSpyCall(consoleLog, 1, { args: ['✅ "' + customInput + '"'] });
   });
+
+  it("that can be asserted multiple times", () => {
+    const defaultInput = "default";
+    const customInput = "custom";
+    const returnBoolean = (str?: string) => {
+      return str || defaultInput;
+    };
+
+    expect(returnBoolean).run(({ withParams }) => {
+      withParams().toBe(defaultInput);
+      withParams(customInput).toBe(customInput);
+    });
+
+    assertSpyCall(consoleLog, 0, { args: ["✅"] });
+    assertSpyCall(consoleLog, 1, { args: ['✅ "' + customInput + '"'] });
+  });
 });

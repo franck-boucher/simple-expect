@@ -24,5 +24,11 @@ export function expect<T extends unknown[]>(func: (...args: T) => unknown) {
     };
   };
 
-  return { withParams };
+  const run = (
+    runFunc: (params: { withParams: typeof withParams }) => void
+  ) => {
+    runFunc({ withParams });
+  };
+
+  return { withParams, run };
 }
